@@ -1,44 +1,45 @@
 import { Router } from 'express';
 import { body, validationResult } from 'express-validator';
 import { handleInputErrors } from './modules/middleware';
+import { createProduct, getProductById, getProducts } from './handlers/product';
+import { createUpdate, deleteUpdate, getUpdateById, getUpdates, updateUpdate } from './handlers/update';
 
 const router = Router();
 
 /**
  * Product
  */
-router.get('/product', (req, res) => {
-  res.json({ message: 'hello' });
-});
-router.get('/product/:id', () => {});
+router.get('/product', getProducts);
+router.get('/product/:id', getProductById);
 router.put('/product/:id', body('name').isString(), handleInputErrors, (req, res) => {
   //
 });
-router.post('/product', body('name').isString(), handleInputErrors, (req, res) => {});
+router.post('/product', body('name').isString(), handleInputErrors, createProduct);
 router.delete('/product/:id', () => {});
 
 /**
  * Update
  */
-router.get('/update', () => {});
-router.get('/update/:id', () => {});
+router.get('/update', getUpdates);
+router.get('/update/:id', getUpdateById);
 
 const updateIdPutFields = [
   body('title').optional(),
   body('body').optional(),
-  body('status').isIn(['IN_PROGRESS', 'SHIPPED', 'DEPRECATED']),
+  body('status').isIn(['IN_PROGRESS', 'SHIPPED', 'DEPRECATED']).optional(),
   body('version').optional(),
 ] as const;
-router.put('/update/:id', ...updateIdPutFields, () => {});
+router.put('/update/:id', ...updateIdPutFields, updateUpdate);
 
 const updatePostFields = [
   body('title').exists().isString(),
   body('body').exists().isString(),
+  body('productId').exists().isString(),
   //
 ] as const;
-router.post('/update', ...updatePostFields, () => {});
+router.post('/update', ...updatePostFields, createUpdate);
 
-router.delete('/update/:id', () => {});
+router.delete('/update/:id', deleteUpdate);
 
 /**
  * UpdatePoint
