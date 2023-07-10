@@ -1,5 +1,5 @@
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 export const comparePasswords = (password, hash) => {
   return bcrypt.compare(password, hash);
@@ -15,7 +15,7 @@ export const createJWT = (user) => {
       id: user.id,
       username: user.username,
     },
-    process.env.JWT_SECRET
+    process.env.JWT_SECRET,
   );
   return token;
 };
@@ -24,11 +24,11 @@ export const protect = (req, res, next) => {
   const bearer = req.headers.authorization;
   if (!bearer) {
     res.status(401).json({
-      message: "not authorized",
+      message: 'not authorized',
     });
     return;
   }
-  const [, token] = bearer.split(" ");
+  const [, token] = bearer.split(' ');
 
   try {
     const user = jwt.verify(token, process.env.JWT_SECRET);
@@ -37,7 +37,7 @@ export const protect = (req, res, next) => {
   } catch (err) {
     console.error(err);
     res.status(401).json({
-      message: "not valid token",
+      message: 'not valid token',
     });
     return;
   }

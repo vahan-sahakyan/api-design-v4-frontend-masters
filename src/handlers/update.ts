@@ -52,7 +52,7 @@ export const updateUpdate = async (req, res) => {
     return [...allUpdates, ...product.updates];
   }, []);
 
-  const match = updates.find(update => update.id === req.params.id);
+  const match = updates.find((update) => update.id === req.params.id);
   if (!match) return res.json({ message: 'nope' });
 
   const updatedUpdate = await prisma.update.update({
@@ -77,7 +77,7 @@ export const deleteUpdate = async (req, res) => {
     return [...allUpdates, ...product.updates];
   }, []);
 
-  const match = updates.find(update => update.id === req.params.id);
+  const match = updates.find((update) => update.id === req.params.id);
   if (!match) return res.json({ message: 'nope' });
   const deleted = await prisma.update.delete({
     where: {

@@ -1,9 +1,9 @@
-import app from "./server";
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
+import app from './server';
+import config from './config';
+
 dotenv.config();
 
-const port = process.env.PORT ?? 5500;
-
-app.listen(port, () => {
-  console.log(`hello on http://localhost:${port}`);
+app.listen(config.port, () => {
+  console.log(`hello on http://localhost:${config.port}`);
 });
